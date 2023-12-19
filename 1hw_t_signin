@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "e18e0e8b-80c8-4309-9274-7c121eeaa664",
+		"name": "Sign-in teacher",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10643204"
+	},
+	"item": [
+		{
+			"name": "Sign-in with val cred",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Validate user email\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.user.email).to.eql(\"denispechenykh5@gmail.com\");",
+							"});",
+							"",
+							"pm.test(\"User role validation\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.user.role).to.eql(\"TEACHER\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"denispechenykh5@gmail.com\",\n  \"password\": \"kenig2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/sign-in",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign-in with invalid cred",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Check status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(\"error\");",
+							"});",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Authentication failed. User not found or password does not match\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"denisk20233@gmail.com\",\n  \"password\": \"Kenig_12\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/sign-in",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
